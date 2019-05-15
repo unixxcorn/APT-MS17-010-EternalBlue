@@ -1,0 +1,280 @@
+/*
+ *  Main CSS file
+ *  
+ *  Color Scheme:
+ *      Main Yellow: #FFA500
+ *      Main Black: #2b2b2a
+ *
+ *  Contents:
+ *      |- 01 - General & Font Settings
+ *      |- 02 - Containers
+ *      |- 03 - Homepage
+ *      |- 04 - Start
+ *      |- 05 - Media Queries
+ */
+
+/*
+ * ===============================================================================
+ * 01 - General & Font Settings
+ * ===============================================================================
+ */
+
+@import url('https://fonts.googleapis.com/css?family=Kanit:300,400&subset=thai');
+
+body {
+    background: #1b1b1b;
+    color: #ffffff;
+    font-family: "Kanit", sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    width: 100vw;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+p {
+    font-size: 20px;
+}
+
+.buttonContainer a {
+    padding: 6px 12px;
+    background: #FFA31A;
+    color: #000;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+/*
+ * ===============================================================================
+ * 02 - Containers
+ * ===============================================================================
+ */
+  
+.container {
+    max-width: 960px;
+    margin: auto;
+}
+
+
+/*
+ * ===============================================================================
+ * 03 - Homepage
+ * ===============================================================================
+ */
+
+.home > section {
+    display: flex;
+    display: -webkit-flex;
+    justify-content: center;
+    -webkit-justify-content: center;
+    align-items: center;
+    -webkit-align-items: center;
+    flex-flow: column;
+    -webkit-flex-flow: column;
+    width: 100vw;
+}
+
+.mainLogo {
+    display: block;
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 9vw;
+    position: relative;
+    float:left;
+}
+
+.mainLogo span:nth-child(2) {
+    background: #FF9900;
+    color: #000000;
+    border-radius: 1vw;
+    padding: 0 1vw 1vw 1vw;
+    display: inline-block;
+}
+
+.home-featured {
+    height: 100vh;
+    min-height: 100vh;
+}
+
+.home-featured h2 {
+    text-align: center;
+}
+
+.home-info {
+    background: #222;
+    padding: 6em 0;
+}
+
+.home-info article, .home-info article div {
+    display: flex;
+    display: -webkit-flex;
+}
+
+#generalInfo {
+    flex-flow: column;
+    -webkit-flex-flow: column;
+}
+
+#generalInfo div:first-child {
+    width: 100%;
+    justify-content: space-evenly;
+    -webkit-justify-content: space-evenly;
+    align-items: center;
+    -webkit-align-items: center;
+}
+
+#generalInfo div:last-child {
+    width: 100%;
+    justify-content: center;
+    -webkit-justify-content: center;
+    align-items: center;
+    -webkit-align-items: center;
+}
+
+#generalInfo div:last-child p {
+    text-align: center;
+}
+
+#rootkit {
+    margin-top: 62px;
+    width: 140px;
+}
+
+.home-credit {
+    padding: 3em 0 2em;
+}
+
+.startButton {
+    margin-top: 50px;
+}
+
+.startButton i {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    background-image: url(../img/sprite-icons.png);
+    background-repeat: no-repeat;
+    background-position: -37px -103px;
+    background-size: 185px;
+}
+
+/*
+ * ===============================================================================
+ * 04 - Start
+ * ===============================================================================
+ */
+
+main.penTestingUI {
+    display: flex;
+    display: -webkit-flex;
+    flex-flow: column;
+    -webkit-flex-flow: column;
+    width: 100vw;
+    height: 100vh;
+}
+
+main.penTestingUI > div {
+    display: flex;
+    display: -webkit-flex;
+}
+
+main.penTestingUI #clock {
+    text-align: center;
+    padding: 1em 0 0;
+}
+
+main.penTestingUI #reset {
+    position: absolute;
+    top: 16px;
+    right: 0;
+}
+
+main.penTestingUI #reset a {
+    cursor: pointer;
+}
+
+main.penTestingUI #readyOverlay {
+    display: flex;
+    display: -webkit-flex;
+    position: absolute;
+    width: 100vw;
+    height: 60vh;
+    justify-content: center;
+    -webkit-justify-content: center;
+    align-items: center;
+    -webkit-align-items: center;
+}
+
+main.penTestingUI .topology {
+    width: 100vw;
+    height: 60vh;
+}
+
+main.penTestingUI .resultTable {
+    width: 100vw;
+    height: 40vh;
+    background: #444;
+}
+
+.resultTable table {
+    width: 100%;
+}
+
+.resultTable thead {
+    background: #FFA31A;
+}
+
+.resultTable thead th {
+    padding: 10px 4px;
+    text-align: center;
+    color: #000;
+}
+
+.resultTable tbody tr td {
+    text-align: center;
+    padding: 4px;
+}
+
+.scanning td {
+
+}
+
+.exploit td {
+    color: lawngreen;
+}
+
+/*
+ * ===============================================================================
+ * ?? - Media Queries
+ * ===============================================================================
+ */
+
+@media screen and (max-width: 1140px) {
+
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        max-width: 560px;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .container {
+        max-width: 560px;
+    }
+
+    .home-info {
+        padding: 3em 0;
+    }
+}
+
+@media screen and (max-width: 540px) {
+    .container {
+        max-width: 100vw;
+    }
+}
