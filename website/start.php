@@ -4,7 +4,7 @@
 * Can be initialized by pressing "Start" button in the homepage or typing "/start.php" URL postfix.
 *
 * @author 	IT60070011, IT60070096, IT60070102
-* @version	0.9.1
+* @version	0.9.2
 * @since  	0.2.0
 */
 ?>
@@ -61,6 +61,8 @@
             imgURL += "windows"
         } else if (os.includes("mac")) {
             imgURL += "mac"
+        } else if (os.includes("ios")) {
+            imgURL += "ios"
         } else {
             imgURL += "linux"
         }
@@ -107,9 +109,32 @@
     let network = false;
     let exportValue = "";
 
+    const isSuccess = (ip, obj) => {
+        let result = false;
+        $.each(obj, function(key, val) {
+            if (val['ip'] === ip && val['state'] === 'success') {
+                result = true;
+                return false;
+            }
+        });
+        return result;
+    };
+
+    const isFail = (ip, obj) => {
+        let result = false;
+        $.each(obj, function(key, val) {
+            if (val['ip'] === ip && val['state'] === 'fail')
+            {
+                result = true;
+                return false;
+            }
+        });
+        return result;
+    };
+
     const fetchDB = () => {
         // create an array with nodes
-        let nodesArray = [];
+        let nodesArray = new vis.DataSet();
         let edgesArray = [];
 
         $.ajax({
@@ -125,8 +150,26 @@
                     }
                     $("#resultTableBody").empty();
                     $.each(obj, function(key, val) {
+                        // Fail State Sender
+                        let tmpt = val["updated_time"].split(" ");
+                        let objDate = tmpt[0].split("-");
+                        let objTime = tmpt[1].split(":");
+
+                        let timeNow = new Date();
+                        let objTS = new Date(parseInt(objDate[0]), parseInt(objDate[1])-1, parseInt(objDate[2]), parseInt(objTime[0]), parseInt(objTime[1]), parseInt(objTime[2], 0));
+
+                        if (timeNow - objTS > 30000 && val["state"] === "scanning" && !isSuccess(val['ip'], obj) && !isFail(val['ip'], obj)) {
+                            val["state"] = "fail";
+                            $.ajax({
+                                url: "postAPI.php",
+                                type: "POST",
+                                data: JSON.stringify(val)
+                            });
+                            val["state"] = "scanning";
+                        }
+
                         // Table Area
-                        let tr = "<tr>";
+                        let tr = "<tr class='" + val["state"] + "'>";
                         tr = tr + "<td>" + val["updated_time"] + "</td>";
                         tr = tr + "<td>" + descriptor(val["state"]) + "</td>";
                         tr = tr + "<td>" + val["ip"] + "</td>";
@@ -147,24 +190,41 @@
                         for (let i = 0; i < exportValue.length; i++) {
                             let exObj = exportValue[i];
                             if (exObj.id == val["ip"]) {
-                                nodesArray.push({
-                                    id: val["ip"],
-                                    label: textLabel,
-                                    image: "./assets/img/"+imgGenerator(val["os"], val["state"]), shape: 'image',
-                                    x: exObj.x,
-                                    y: exObj.y
-                                });
+                                try {
+                                    nodesArray.push({
+                                        id: val["ip"],
+                                        label: textLabel,
+                                        image: "./assets/img/"+imgGenerator(val["os"], val["state"]), shape: 'image',
+                                        x: exObj.x,
+                                        y: exObj.y
+                                    });
+                                } catch (e) {
+                                    nodesArray.update({
+                                        id: val["ip"],
+                                        label: textLabel,
+                                        image: "./assets/img/"+imgGenerator(val["os"], val["state"]),
+                                        shape: 'image',
+                                        x: exObj.x,
+                                        y: exObj.y});
+                                }
                                 normalAdding = false;
                                 break;
                             }
                         }
 
                         if (normalAdding === true) {
-                            nodesArray.push({
-                                id: val["ip"],
-                                label: textLabel,
-                                image: "./assets/img/"+imgGenerator(val["os"], val["state"]), shape: 'image'
-                            });
+                            try {
+                                nodesArray.add({
+                                    id: val["ip"],
+                                    label: textLabel,
+                                    image: "./assets/img/"+imgGenerator(val["os"], val["state"]), shape: 'image'
+                                });
+                            } catch (e) {
+                                nodesArray.update({
+                                    id: val["ip"],
+                                    label: textLabel,
+                                    image: "./assets/img/"+imgGenerator(val["os"], val["state"]),
+                                    shape: 'image'});                            }
                         }
                         edgesArray.push({from: val["parent"], to: val["ip"], length: 40000000});
                     });

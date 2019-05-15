@@ -221,7 +221,10 @@ main.penTestingUI .resultTable {
 }
 
 .resultTable table {
+    display: block;
     width: 100%;
+    height: 35vh;
+    overflow-y: scroll;
 }
 
 .resultTable thead {
@@ -239,17 +242,25 @@ main.penTestingUI .resultTable {
     padding: 4px;
 }
 
-.scanning td {
+.resultTable thead th:nth-child(1) {width: 10%}
+.resultTable thead th:nth-child(2) {width: 52%}
+.resultTable thead th:nth-child(3) {width: 10%}
+.resultTable thead th:nth-child(4) {width: 8%}
+.resultTable thead th:nth-child(5) {width: 10%}
+.resultTable thead th:nth-child(6) {width: 10%}
+.resultTable thead th:nth-child(7) {width: 10%}
 
+.fail td {
+    color: lawngreen;
 }
 
-.exploit td {
-    color: lawngreen;
+.success td {
+    color: crimson;
 }
 
 /*
  * ===============================================================================
- * ?? - Media Queries
+ * 05 - Media Queries
  * ===============================================================================
  */
 
